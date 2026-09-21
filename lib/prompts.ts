@@ -2,6 +2,7 @@ import { Evidence } from "./evidence";
 
 export const GUIDE_PROMPT_VERSION = "v1";
 export const CROSS_CALL_PROMPT_VERSION = "v1";
+export const ASK_PROMPT_VERSION = "v1";
 
 /**
  * Builds a grounded prompt formatting retrieved Phase 3 evidence objects for Groq LLM synthesis.
@@ -130,6 +131,65 @@ Return a JSON object containing an array of theme objects:
 }`;
 
   const userPrompt = `Analysis Context: ${contextDescription}
+
+Supplied Evidence Objects (${evidenceList.length} items):
+
+${formattedEvidence}
+
+Analyze the supplied evidence and return your grounded JSON response now.`;
+
+  return { systemPrompt, userPrompt };
+}
+
+/**
+ * Phase 6 — Builds a grounded prompt for cross-transcript Q&A across expert interviews.
+ */
+export function buildGroundedAskPrompt(
+  question: string,
+  evidenceList: Evidence[]
+) {
+  const formattedEvidence = evidenceList
+    .map(
+      (ev, idx) => `[Evidence ${idx + 1}]
+Evidence ID: ${ev.chunkId}
+Expert: ${ev.expertName} (${ev.role})
+Market: ${ev.market}
+Timestamp: ${ev.timestamp}
+Interview Question: ${ev.interviewQuestion}
+Exact Source Text:
+"${ev.exactQuote}"`
+    )
+    .join("\n\n");
+
+  const systemPrompt = `You are an expert market research analyst analyzing three expert interview transcripts from France, Germany, and the United Kingdom.
+
+Your task is to answer user questions grounded ONLY in the supplied transcript evidence objects.
+
+CRITICAL RULES:
+1. Answer ONLY using the supplied evidence. Do NOT use outside knowledge.
+2. Do NOT invent facts, data, or expert positions.
+3. Do NOT generate exact quotations, timestamps, expert names, markets, source file names, or source turn IDs directly in your output text.
+4. Reference supporting evidence ONLY by returning exact Evidence ID strings (e.g. "france_expert_002") in the "evidenceIds" array.
+5. Use ONLY Evidence IDs from the supplied evidence list below. Do NOT invent new IDs.
+6. If the supplied evidence is insufficient or irrelevant to answer the user's question, set "synthesisType" to "insufficient_evidence" and provide a grounded explanation stating that the expert interviews do not contain information on the topic.
+7. Distinguish:
+   - broad agreement ("consensus")
+   - different emphasis / divergent views ("mixed")
+   - single-expert evidence ("single_source")
+   - insufficient evidence ("insufficient_evidence")
+8. Do NOT claim consensus unless evidence from multiple experts supports it.
+9. Keep the answer clear, objective, concise, and structured.
+
+OUTPUT FORMAT:
+Return a JSON object with the following exact structure:
+{
+  "answer": "Grounded analytical synthesis answering the user's question...",
+  "evidenceIds": ["chunk_id_1", "chunk_id_2"],
+  "synthesisType": "mixed"
+}`;
+
+  const userPrompt = `User Question:
+"${question}"
 
 Supplied Evidence Objects (${evidenceList.length} items):
 

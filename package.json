@@ -12,7 +12,10 @@
     "evaluate:retrieval": "tsx scripts/evaluate-retrieval.ts",
     "test:evidence": "tsx scripts/test-evidence.ts",
     "evaluate:guide": "tsx scripts/evaluate-guide.ts",
-    "evaluate:themes": "tsx scripts/evaluate-themes.ts"
+    "evaluate:themes": "tsx scripts/evaluate-themes.ts",
+    "evaluate:ask": "tsx scripts/evaluate-ask.ts",
+    "evaluate:source": "tsx scripts/evaluate-source-integrity.ts",
+    "evaluate:hallucinations": "tsx scripts/evaluate-hallucinations.ts"
   },
   "dependencies": {
     "@pinecone-database/pinecone": "^9.0.0",

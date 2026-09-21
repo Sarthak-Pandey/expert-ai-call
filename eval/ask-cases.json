@@ -1,0 +1,12 @@
+[
+  { "id": "A1", "name": "Barriers", "question": "What are the biggest barriers to robotic surgery adoption?" },
+  { "id": "A2", "name": "ROI", "question": "How important is ROI across the three markets?" },
+  { "id": "A3", "name": "Training", "question": "Which experts mention training?" },
+  { "id": "A4", "name": "Future Adoption", "question": "What are the expectations for future adoption?" },
+  { "id": "A5", "name": "Purchasing Timeline", "question": "What are the reported purchasing timelines?" },
+  { "id": "A6", "name": "Market Comparison", "question": "How does the UK view economics compared with France and Germany?" },
+  { "id": "A7", "name": "Expert Specific", "question": "What is the difference between France and Germany on procurement?" },
+  { "id": "A8", "name": "Unrelated Query", "question": "What do the experts say about electric vehicle charging?", "isUnrelated": true },
+  { "id": "A9", "name": "Paraphrased", "question": "Which markets expect gradual growth?" },
+  { "id": "A10", "name": "Follow-up Query", "question": "Which expert places the greatest emphasis on training?" }
+]

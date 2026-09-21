@@ -1,0 +1,58 @@
+[
+  {
+    "chunkId": "france_expert_001",
+    "market": "France",
+    "expertName": "Dr. Jean Martin",
+    "timestamp": "00:18",
+    "sourceFile": "Transcript_1_France.txt",
+    "snippet": "Adoption is growing, but it is still concentrated in larger academic hospitals"
+  },
+  {
+    "chunkId": "france_expert_002",
+    "market": "France",
+    "expertName": "Dr. Jean Martin",
+    "timestamp": "01:20",
+    "sourceFile": "Transcript_1_France.txt",
+    "snippet": "The biggest issue is still capital budget approval."
+  },
+  {
+    "chunkId": "germany_expert_002",
+    "market": "Germany",
+    "expertName": "Anna Keller",
+    "timestamp": "01:10",
+    "sourceFile": "Transcript_2_Germany.txt",
+    "snippet": "Cost is the first barrier."
+  },
+  {
+    "chunkId": "germany_expert_006",
+    "market": "Germany",
+    "expertName": "Anna Keller",
+    "timestamp": "05:08",
+    "sourceFile": "Transcript_2_Germany.txt",
+    "snippet": "I would expect continued growth, but probably closer to high single digits"
+  },
+  {
+    "chunkId": "uk_expert_002",
+    "market": "United Kingdom",
+    "expertName": "Dr. Emily Carter",
+    "timestamp": "01:05",
+    "sourceFile": "Transcript_3_UK.txt",
+    "snippet": "Funding is important, but I would say training capacity is just as important."
+  },
+  {
+    "chunkId": "uk_expert_006",
+    "market": "United Kingdom",
+    "expertName": "Dr. Emily Carter",
+    "timestamp": "05:04",
+    "sourceFile": "Transcript_3_UK.txt",
+    "snippet": "Around six to nine months can happen if funding is already available."
+  },
+  {
+    "chunkId": "uk_expert_007",
+    "market": "United Kingdom",
+    "expertName": "Dr. Emily Carter",
+    "timestamp": "06:04",
+    "sourceFile": "Transcript_3_UK.txt",
+    "snippet": "The key point is that adoption is not just about buying the machine."
+  }
+]

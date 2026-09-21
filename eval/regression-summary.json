@@ -1,0 +1,47 @@
+{
+  "lastExecutedAt": "2026-09-21T19:11:51.981Z",
+  "sourceIntegrity": {
+    "totalFilesChecked": 4,
+    "totalTurnsChecked": 42,
+    "totalChunksChecked": 21,
+    "exactQuoteMatches": 21,
+    "quoteMismatches": 0,
+    "timestampFailures": 0,
+    "knownCaseFailures": 0,
+    "status": "PASS"
+  },
+  "retrieval": {
+    "totalCases": 13,
+    "passed": 13,
+    "coverageRatePercent": 100,
+    "status": "PASS"
+  },
+  "guide": {
+    "totalQuestions": 6,
+    "passed": 6,
+    "evidenceIdFailures": 0,
+    "sourceResolutionFailures": 0,
+    "status": "PASS"
+  },
+  "themes": {
+    "totalThemes": 23,
+    "passed": 23,
+    "invalidEvidenceIds": 0,
+    "quoteResolutionFailures": 0,
+    "status": "PASS"
+  },
+  "ask": {
+    "totalQueries": 10,
+    "passed": 10,
+    "invalidEvidenceIds": 0,
+    "sourceResolutionFailures": 0,
+    "noEvidenceHandled": 1,
+    "status": "PASS"
+  },
+  "hallucinations": {
+    "totalTests": 11,
+    "handledCorrectly": 11,
+    "failures": 0,
+    "status": "PASS"
+  }
+}

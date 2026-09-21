@@ -64,6 +64,23 @@ export async function evaluateRetrieval() {
 
   const coveragePercent = Math.round((fullCoverageCount / totalCases) * 100);
 
+  const summaryPath = path.join(__dirname, "..", "eval", "regression-summary.json");
+  if (fs.existsSync(summaryPath)) {
+    try {
+      const summary = JSON.parse(fs.readFileSync(summaryPath, "utf-8"));
+      summary.lastExecutedAt = new Date().toISOString();
+      summary.retrieval = {
+        totalCases,
+        passed: fullCoverageCount,
+        coverageRatePercent: coveragePercent,
+        status: coveragePercent >= 80 ? "PASS" : "FAIL",
+      };
+      fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2), "utf-8");
+    } catch {
+      // ignore update error
+    }
+  }
+
   console.log("==========================================");
   console.log("Retrieval Evaluation Summary");
   console.log("==========================================");
