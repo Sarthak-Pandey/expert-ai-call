@@ -10,10 +10,13 @@
     "parse": "tsx scripts/parse.ts",
     "ingest": "tsx scripts/ingest.ts",
     "evaluate:retrieval": "tsx scripts/evaluate-retrieval.ts",
-    "test:evidence": "tsx scripts/test-evidence.ts"
+    "test:evidence": "tsx scripts/test-evidence.ts",
+    "evaluate:guide": "tsx scripts/evaluate-guide.ts",
+    "evaluate:themes": "tsx scripts/evaluate-themes.ts"
   },
   "dependencies": {
     "@pinecone-database/pinecone": "^9.0.0",
+    "groq-sdk": "^1.6.0",
     "next": "16.3.5",
     "react": "19.2.8",
     "react-dom": "19.2.8"

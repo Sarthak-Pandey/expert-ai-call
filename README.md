@@ -44,8 +44,8 @@ Transcripts
 - [x] **Phase 1**: Transcript parsing and normalization
 - [x] **Phase 2**: Embeddings and Pinecone ingestion
 - [x] **Phase 3**: Grounded evidence layer
-- [ ] **Phase 4**: Interview Guide analysis
-- [ ] **Phase 5**: Themes and disagreements
+- [x] **Phase 4**: Grounded LLM Interview Guide analysis
+- [x] **Phase 5**: Themes and disagreements
 - [ ] **Phase 6**: Cross-transcript Q&A
 - [ ] **Phase 7**: Evaluation and hallucination controls
 - [ ] **Phase 8**: UI polish, documentation and deployment
@@ -54,7 +54,97 @@ Transcripts
 
 ## Current Status
 
-**Phase 3 Completed.** Grounded evidence resolution engine (`lib/evidence.ts`), evidence API endpoint (`POST /api/evidence`), deterministic deduplication, exact quote integrity verification (`npm run test:evidence`), market/expert grouping utilities, and evidence UI viewer are fully implemented.
+**Phase 5 Completed.** Multi-market cross-call evidence collection across France, Germany, and the UK (`lib/themes.ts`), prompt versioning (`CROSS_CALL_PROMPT_VERSION = "v1"`), structured JSON LLM theme synthesis with evidence ID validation, application-computed expert coverage, exact quote resolution via Phase 3 evidence layer, themes API endpoint (`POST /api/themes`), themes benchmark evaluation (`npm run evaluate:themes`), and integrated Guide UI (`app/guide/page.tsx` with `ThemeCard` and `DisagreementCard`) are fully implemented.
+
+---
+
+## Phase 5 — Cross-Call Themes & Differences
+
+Phase 5 analyzes all three expert interviews (France, Germany, UK) together to identify recurring common themes, differences in emphasis, and material disagreements using grounded Phase 3 evidence.
+
+### Cross-Call Architecture
+
+```text
+Six Guide Questions (Q1–Q6 Retrieval Anchors)
+        ↓
+Phase 3 Vector Retrieval (searchChunks across France, Germany, UK)
+        ↓
+Multi-Market Evidence Collection & Deduplication by chunkId
+        ↓
+Groq LLM Cross-Call Synthesis (openai/gpt-oss-120b / CROSS_CALL_PROMPT_VERSION = "v1")
+        ↓
+Evidence ID Validation & Retry Engine (bounded to max 2 attempts)
+        ↓
+Application-Level Expert Coverage Computation (unique experts in evidenceIds)
+        ↓
+Source Evidence Resolution (getEvidenceByChunkId for exact quotes + timestamps)
+        ↓
+Themes & Differences Output (Consensus, Difference in Emphasis, Disagreement, Single Expert)
+```
+
+### Semantic Categorization Rules
+
+1. **`consensus`**: Experts express broadly compatible views (requires evidence from >= 2 experts).
+2. **`difference_in_emphasis`**: Experts agree on the broad topic, but emphasize different priorities, budget models, or local constraints.
+3. **`disagreement`**: Experts provide materially opposing positions supported by transcript evidence.
+4. **`single_expert`**: Points raised by only one expert/market without cross-call corroboration.
+5. **`insufficient_evidence`**: Evidence is insufficient to support a reliable cross-call comparison.
+
+### Key Technical Principles
+
+1. **Zero LLM Quote Generation**: The LLM returns ONLY `evidenceIds`. All verbatim quotes, timestamps, expert names, roles, markets, and source files are resolved server-side using `getEvidenceByChunkId()`.
+2. **No Fake Consensus**: Merely discussing a topic is not treated as agreement. Broad agreement requires distinct supporting evidence across multiple experts.
+3. **Application-Computed Coverage**: `expertsCovered` is recomputed by the application based on unique resolved expert IDs, ensuring the model cannot claim 3/3 coverage with evidence from only 1 expert.
+4. **Themes API Endpoint**: `POST /api/themes` accepts optional `{ "questionId": "Q3" }` or empty body `{}` for full cross-transcript theme synthesis.
+5. **Integrated Guide UI**: Themes and key differences are rendered directly on `/guide` using `ThemeCard` and `DisagreementCard` without creating an extra navigation route.
+
+### Running Phase 5 Benchmark
+
+```bash
+npm run evaluate:themes
+```
+
+---
+
+## Phase 4 — Grounded LLM Interview Guide Analysis
+
+Phase 4 introduces an LLM into the research application to synthesize analytical answers for the six official interview-guide questions using **only retrieved Phase 3 evidence objects**.
+
+### Guide Analysis Pipeline Architecture
+
+```text
+Interview Guide Question (Q1–Q6)
+      ↓
+Phase 3 Semantic Vector Search (searchChunks)
+      ↓
+Retrieved Grounded Evidence Objects (lib/evidence.ts)
+      ↓
+Groq LLM Synthesis (openai/gpt-oss-120b / response_format: json_object)
+      ↓
+Structured JSON Response (answer + evidenceIds)
+      ↓
+Server-Side Evidence ID Validation & Quote Resolution (getEvidenceByChunkId)
+      ↓
+Final Grounded Guide Answer (Answer + Verbatim Quotes + Timestamps + Expert Metadata)
+```
+
+### Key Technical Principles
+
+1. **Zero LLM Quote Generation**: The LLM returns ONLY `evidenceIds` (e.g. `["france_expert_002", "germany_expert_002"]`). All displayed exact quotes, timestamps, expert names, roles, markets, and source files are resolved server-side from Phase 1/Phase 3 source JSON (`data/chunks.json`).
+2. **Retrieval Before Generation**: The LLM never reads raw transcript files directly and cannot perform arbitrary ungrounded web or transcript searches.
+3. **Prompt Versioning & Grounding Rules**: Prompts in `lib/prompts.ts` (`GUIDE_PROMPT_VERSION = "v1"`) strictly prohibit outside knowledge, fabricated quotes, or invented expert opinions.
+4. **Synthesis Classification**: Automatically classifies answers into `consensus`, `mixed`, `single_source`, or `insufficient_evidence`.
+5. **Server-Side Validation**: Every returned `evidenceId` is validated against the retrieved evidence set. Unknown IDs are rejected and cause bounded retries (max 2 attempts).
+
+### Running Phase 4 Evaluation
+
+```bash
+npm run evaluate:guide
+```
+
+### Guide API Endpoint
+
+- `POST /api/guide`: Accepts `{ "questionId": "Q2", "topK": 6 }` and returns `{ "questionId": "Q2", "question": "...", "answer": "...", "synthesisType": "consensus", "coverage": { "expertsCovered": 3, "totalExperts": 3 }, "evidence": [ Evidence, ... ] }`.
 
 ---
 

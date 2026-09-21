@@ -1,26 +1,26 @@
 [
   {
     "id": "Q1",
-    "question": "What are the primary market drivers and growth expectations for the project scope across regions?"
+    "question": "How would you describe current adoption of robotic surgery in your market?"
   },
   {
     "id": "Q2",
-    "question": "How do regulatory environments and compliance requirements differ between France, Germany, and the UK?"
+    "question": "What are the main barriers to adoption?"
   },
   {
     "id": "Q3",
-    "question": "What key operational challenges or bottlenecks were highlighted by the industry experts?"
+    "question": "How important are hospital budgets and ROI in purchasing decisions?"
   },
   {
     "id": "Q4",
-    "question": "How are competitive dynamics and vendor landscape positioning evolving in each market?"
+    "question": "How important are surgeon training and clinical outcomes?"
   },
   {
     "id": "Q5",
-    "question": "What customer adoption patterns and purchasing criteria are driving decision-making?"
+    "question": "What adoption trend do you expect over the next 3–5 years?"
   },
   {
     "id": "Q6",
-    "question": "What strategic outlook and investment priorities do experts recommend for the next 3-5 years?"
+    "question": "What is the typical hospital decision-making timeline for purchasing a new robotic system?"
   }
 ]
