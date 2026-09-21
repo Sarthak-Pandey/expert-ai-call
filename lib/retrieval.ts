@@ -1,5 +1,5 @@
 import { getPineconeNamespace } from "./pinecone";
-import { getChunkById, ExpertResponseChunk } from "./transcript";
+import { Evidence, getEvidenceByChunkId } from "./evidence";
 
 export interface SearchOptions {
   topK?: number;
@@ -10,23 +10,13 @@ export interface SearchOptions {
 }
 
 export interface RetrievalResult {
-  chunkId: string;
-  score: number;
-  callId: string;
-  expertId: string;
-  expertName: string;
-  role: string;
-  market: string;
-  timestamp: string;
-  timestampSeconds: number;
-  text: string;
-  interviewQuestion: string;
-  sourceFile: string;
-  sourceTurnId: string;
+  evidence: Evidence;
 }
 
 /**
- * Executes a semantic vector search against Pinecone and maps results back to exact Phase 1 source JSON records.
+ * Phase 3 — Grounded Evidence Retrieval Engine
+ * Executes a semantic vector search against Pinecone, deduplicates chunk hits deterministically,
+ * resolves vector IDs back to authoritative Phase 1 source evidence, and sorts by score.
  */
 export async function searchChunks(
   query: string,
@@ -37,8 +27,11 @@ export async function searchChunks(
     throw new Error("ERROR: Query string must not be empty.");
   }
 
-  // Bound topK between 1 and 20 (default: 5)
+  // Validate and bound topK between 1 and 20 (default: 5)
   let topK = options.topK ?? 5;
+  if (typeof topK !== "number" || isNaN(topK)) {
+    throw new Error("ERROR: Invalid topK option. Must be a number between 1 and 20.");
+  }
   if (topK < 1) topK = 1;
   if (topK > 20) topK = 20;
 
@@ -53,9 +46,9 @@ export async function searchChunks(
 
   const ns = getPineconeNamespace();
 
-  const searchParams: { query: { topK: number; inputs: { text: string } }; filter: Record<string, unknown> } = {
+  const searchParams = {
     query: {
-      topK,
+      topK: topK * 2, // Fetch extra candidate hits to account for potential deduplication
       inputs: { text: trimmedQuery },
     },
     filter,
@@ -65,33 +58,33 @@ export async function searchChunks(
   const hits = response?.result?.hits || [];
 
   const results: RetrievalResult[] = [];
+  const seenChunkIds = new Set<string>();
 
   for (const hit of hits) {
     const rawHit = hit as unknown as Record<string, unknown>;
     const chunkId = (hit._id || rawHit.id || "") as string;
     const score = (hit._score ?? rawHit.score ?? 0) as number;
 
-    // Phase 2 Architecture Rule: Always resolve chunkId back to Phase 1 JSON source of truth
-    const sourceChunk: ExpertResponseChunk | null = getChunkById(chunkId);
+    if (!chunkId || seenChunkIds.has(chunkId)) {
+      continue; // Deterministic deduplication by chunkId
+    }
 
-    if (sourceChunk) {
-      results.push({
-        chunkId: sourceChunk.chunkId,
-        score,
-        callId: sourceChunk.callId,
-        expertId: sourceChunk.expertId,
-        expertName: sourceChunk.expertName,
-        role: sourceChunk.role,
-        market: sourceChunk.market,
-        timestamp: sourceChunk.timestamp,
-        timestampSeconds: sourceChunk.timestampSeconds,
-        text: sourceChunk.text, // Exact spoken text from Phase 1
-        interviewQuestion: sourceChunk.interviewQuestion,
-        sourceFile: sourceChunk.sourceFile,
-        sourceTurnId: sourceChunk.sourceTurnId,
-      });
+    try {
+      // Resolve chunkId back to authoritative Phase 1 source evidence
+      const evidence = getEvidenceByChunkId(chunkId, score);
+      seenChunkIds.add(chunkId);
+      results.push({ evidence });
+
+      if (results.length >= topK) {
+        break;
+      }
+    } catch (err) {
+      console.warn(`Skipping unresolvable vector hit "${chunkId}":`, err);
     }
   }
+
+  // Preserve Pinecone semantic relevance ordering (highest score first)
+  results.sort((a, b) => b.evidence.score - a.evidence.score);
 
   return results;
 }

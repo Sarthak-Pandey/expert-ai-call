@@ -9,7 +9,8 @@
     "lint": "eslint",
     "parse": "tsx scripts/parse.ts",
     "ingest": "tsx scripts/ingest.ts",
-    "evaluate:retrieval": "tsx scripts/evaluate-retrieval.ts"
+    "evaluate:retrieval": "tsx scripts/evaluate-retrieval.ts",
+    "test:evidence": "tsx scripts/test-evidence.ts"
   },
   "dependencies": {
     "@pinecone-database/pinecone": "^9.0.0",

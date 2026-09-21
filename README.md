@@ -43,7 +43,7 @@ Transcripts
 - [x] **Phase 0**: Project foundation and application skeleton
 - [x] **Phase 1**: Transcript parsing and normalization
 - [x] **Phase 2**: Embeddings and Pinecone ingestion
-- [ ] **Phase 3**: Retrieval and evidence layer
+- [x] **Phase 3**: Grounded evidence layer
 - [ ] **Phase 4**: Interview Guide analysis
 - [ ] **Phase 5**: Themes and disagreements
 - [ ] **Phase 6**: Cross-transcript Q&A
@@ -54,7 +54,54 @@ Transcripts
 
 ## Current Status
 
-**Phase 2 Completed.** Vector embeddings, Pinecone Integrated Inference indexing (`llama-text-embed-v2`), idempotent ingestion, semantic search API (`POST /api/search`), exact JSON source resolution, and 100% automated retrieval evaluation are fully implemented.
+**Phase 3 Completed.** Grounded evidence resolution engine (`lib/evidence.ts`), evidence API endpoint (`POST /api/evidence`), deterministic deduplication, exact quote integrity verification (`npm run test:evidence`), market/expert grouping utilities, and evidence UI viewer are fully implemented.
+
+---
+
+## Phase 3 — Grounded Evidence Layer
+
+Phase 3 creates a deterministic, zero-LLM evidence layer that validates and formats vector search hits into structured `Evidence` objects backed verbatim by Phase 1 source JSON (`data/chunks.json`).
+
+### Evidence Pipeline Architecture
+
+```text
+User Question / Query
+      ↓
+Pinecone Vector Search (POST /api/search)
+      ↓
+Candidate Chunk IDs + Scores
+      ↓
+Deterministic Deduplication by chunkId
+      ↓
+Source JSON Resolution (getEvidenceByChunkId)
+      ↓
+Evidence Attribute Validation (validateEvidence)
+      ↓
+Structured Grounded Evidence Objects (exactQuote, timestamp, expert, market, sourceFile)
+      ↓
+Future LLM Reasoning (Phase 4+)
+```
+
+### Key Technical Principles
+
+1. **Zero LLM Quote Generation**: Every `exactQuote` string is extracted verbatim from Phase 1 JSON (`data/chunks.json`) by `chunkId`. Quotes are never synthesized, reconstructed, or reworded by an LLM.
+2. **Authoritative Traceability**: Every `Evidence` object carries complete source context: `chunkId`, `callId`, `expertId`, `expertName`, `role`, `market`, `speaker`, `timestamp`, `timestampSeconds`, `exactQuote`, `interviewQuestion`, `sourceFile`, and `sourceTurnId`.
+3. **Deterministic Deduplication**: Multiple vector hits for the same `chunkId` are deduplicated deterministically while preserving relevance score ordering.
+4. **Validation Rules**: `validateEvidence()` guarantees that all required evidence fields are present and non-empty before passing payload objects to downstream consumers.
+5. **Direct Evidence Resolution API**: `POST /api/evidence` allows resolving any `chunkId` directly to its authoritative source evidence payload.
+6. **Grouping & Filtering Utilities**: Includes helper utilities (`filterEvidenceByMarket`, `groupEvidenceByMarket`, `groupEvidenceByExpert`) to support cross-market synthesis in future phases.
+
+### Running Phase 3 Scripts
+
+- **Test Exact Quote Integrity**:
+  ```bash
+  npm run test:evidence
+  ```
+
+### Evidence API Endpoints
+
+- `POST /api/search`: Accepts `{ "query": "...", "topK": 5 }` and returns `{ "query": "...", "results": [ Evidence, ... ] }`.
+- `POST /api/evidence`: Accepts `{ "chunkId": "france_expert_002" }` and returns `{ "evidence": Evidence }`.
 
 ---
 

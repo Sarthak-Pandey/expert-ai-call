@@ -13,13 +13,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const results = await searchChunks(query, {
+    if (topK !== undefined && (typeof topK !== "number" || isNaN(topK) || topK < 1 || topK > 20)) {
+      return NextResponse.json(
+        { error: "Invalid request: 'topK' must be a number between 1 and 20." },
+        { status: 400 }
+      );
+    }
+
+    const retrievalResults = await searchChunks(query, {
       topK,
       filter,
       market,
       callId,
       expertId,
     });
+
+    const results = retrievalResults.map((r) => r.evidence);
 
     return NextResponse.json({
       query,
