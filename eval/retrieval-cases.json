@@ -1,0 +1,80 @@
+[
+  {
+    "id": "R1",
+    "category": "Guide Question",
+    "query": "What are the main barriers to robotic surgery adoption?",
+    "expectedMarkets": ["France", "Germany", "United Kingdom"]
+  },
+  {
+    "id": "R2",
+    "category": "Guide Question",
+    "query": "How important is ROI in purchase decisions?",
+    "expectedMarkets": ["France", "Germany", "United Kingdom"]
+  },
+  {
+    "id": "R3",
+    "category": "Guide Question",
+    "query": "How important is surgeon training for adoption?",
+    "expectedMarkets": ["France", "Germany", "United Kingdom"]
+  },
+  {
+    "id": "R4",
+    "category": "Guide Question",
+    "query": "What is the market outlook over the next three to five years?",
+    "expectedMarkets": ["France", "Germany", "United Kingdom"]
+  },
+  {
+    "id": "R5",
+    "category": "Guide Question",
+    "query": "How long does the purchasing process take?",
+    "expectedMarkets": ["France", "Germany", "United Kingdom"]
+  },
+  {
+    "id": "R6",
+    "category": "Guide Question",
+    "query": "How would you describe current robotic surgery adoption?",
+    "expectedMarkets": ["France", "Germany", "United Kingdom"]
+  },
+  {
+    "id": "R7",
+    "category": "Paraphrased Query",
+    "query": "Why are smaller regional hospitals slow to buy robotic systems?",
+    "expectedMarkets": ["France", "Germany"]
+  },
+  {
+    "id": "R8",
+    "category": "Paraphrased Query",
+    "query": "Who makes the final decision on hospital capital expenditures?",
+    "expectedMarkets": ["France", "Germany"]
+  },
+  {
+    "id": "R9",
+    "category": "Paraphrased Query",
+    "query": "Does surgeon reluctance or training capacity stall system deployment?",
+    "expectedMarkets": ["France", "Germany", "United Kingdom"]
+  },
+  {
+    "id": "R10",
+    "category": "Paraphrased Query",
+    "query": "What procedure volume growth rate is expected annually?",
+    "expectedMarkets": ["France", "Germany", "United Kingdom"]
+  },
+  {
+    "id": "R11",
+    "category": "Paraphrased Query",
+    "query": "How do service contracts and total cost of ownership affect procurement?",
+    "expectedMarkets": ["Germany"]
+  },
+  {
+    "id": "R12",
+    "category": "Cross-Market Query",
+    "query": "How does robotic surgery adoption compare between academic centers and smaller trusts across markets?",
+    "expectedMarkets": ["France", "Germany", "United Kingdom"]
+  },
+  {
+    "id": "R13",
+    "category": "Cross-Market Query",
+    "query": "Are purchasing decisions driven primarily by financial ROI or clinical strategy across Europe?",
+    "expectedMarkets": ["France", "Germany", "United Kingdom"]
+  }
+]

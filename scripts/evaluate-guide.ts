@@ -96,6 +96,24 @@ export async function evaluateGuide() {
     console.log(`  ✓ Experts covered: ${distinctExperts}/3\n`);
   }
 
+  const summaryPath = path.join(__dirname, "..", "eval", "regression-summary.json");
+  if (fs.existsSync(summaryPath)) {
+    try {
+      const summary = JSON.parse(fs.readFileSync(summaryPath, "utf-8"));
+      summary.lastExecutedAt = new Date().toISOString();
+      summary.guide = {
+        totalQuestions,
+        passed: validGroundedResponses,
+        evidenceIdFailures: invalidEvidenceIdsCount,
+        sourceResolutionFailures,
+        status: validGroundedResponses === totalQuestions ? "PASS" : "FAIL",
+      };
+      fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2), "utf-8");
+    } catch {
+      // ignore update error
+    }
+  }
+
   console.log("==========================================");
   console.log("Interview Guide Evaluation Summary");
   console.log("==========================================");

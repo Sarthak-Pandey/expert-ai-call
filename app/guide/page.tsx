@@ -134,66 +134,73 @@ export default function GuidePage() {
   ) || [];
 
   return (
-    <div className="space-y-10 pb-12">
-      <div>
+    <div className="space-y-8 max-w-5xl mx-auto pb-12">
+      <div className="border-b border-slate-200 pb-4">
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-          Grounded Interview Guide & Cross-Call Analysis
+          Interview Guide
         </h1>
         <p className="text-sm text-slate-600 mt-1">
-          Grounded synthesis of expert interviews (France, Germany, UK) using Groq LLM (openai/gpt-oss-120b) verified by Phase 3 transcript evidence.
+          Explore key guide questions across expert interviews (France, Germany, United Kingdom) with grounded AI synthesis and verbatim source evidence.
         </p>
       </div>
 
       {/* Guide Question Tabs */}
-      <div className="flex gap-2 border-b border-slate-200 overflow-x-auto pb-2">
-        {questions.map((q) => {
-          const isActive = q.id === activeQuestionId;
-          const isDone = !!analysisData[q.id];
-          return (
-            <button
-              key={q.id}
-              onClick={() => {
-                setActiveQuestionId(q.id);
-                if (themesMode === "question") {
-                  fetchThemes("question", q.id);
-                }
-              }}
-              className={`px-4 py-2 text-xs font-semibold rounded-t-lg transition-colors whitespace-nowrap flex items-center gap-2 ${
-                isActive
-                  ? "bg-slate-900 text-white"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              }`}
-            >
-              <span>{q.id}</span>
-              {isDone && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>}
-            </button>
-          );
-        })}
+      <div className="space-y-2">
+        <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+          Questions
+        </h2>
+        <div className="flex gap-2 border-b border-slate-200 overflow-x-auto pb-2">
+          {questions.map((q) => {
+            const isActive = q.id === activeQuestionId;
+            const isDone = !!analysisData[q.id];
+            return (
+              <button
+                key={q.id}
+                onClick={() => {
+                  setActiveQuestionId(q.id);
+                  if (themesMode === "question") {
+                    fetchThemes("question", q.id);
+                  }
+                }}
+                role="tab"
+                aria-selected={isActive}
+                className={`px-4 py-2.5 text-xs font-bold rounded-t-lg transition-colors whitespace-nowrap flex items-center gap-2 ${
+                  isActive
+                    ? "bg-slate-900 text-white shadow-xs"
+                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                }`}
+              >
+                <span>{q.id}</span>
+                {isDone && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Active Question Banner & Controls */}
-      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-xs flex items-center justify-between">
+      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-xs flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            Active Question [{activeQuestion.id}]
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+            Selected Question &bull; {activeQuestion.id}
           </span>
-          <h2 className="text-lg font-bold text-slate-900 mt-0.5">
+          <h2 className="text-lg font-bold text-slate-900 mt-1">
             {activeQuestion.question}
           </h2>
         </div>
         <button
           onClick={() => fetchGuideAnalysis(activeQuestion.id)}
           disabled={isLoading}
-          className="px-4 py-2 bg-blue-600 text-white font-medium text-xs rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors whitespace-nowrap"
+          className="px-4 py-2.5 bg-blue-600 text-white font-medium text-xs rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors whitespace-nowrap shrink-0"
         >
-          {isLoading ? "Analyzing..." : activeData ? "Re-analyze" : "Analyze Question"}
+          {isLoading ? "Searching & Analyzing..." : activeData ? "Re-analyze Question" : "Analyze Question"}
         </button>
       </div>
 
       {/* Error Message */}
       {activeError && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">
-          {activeError}
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
+          We couldn&apos;t analyze this question right now. Please try again.
         </div>
       )}
 
@@ -211,11 +218,11 @@ export default function GuidePage() {
 
           <div className="space-y-4">
             <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-              <h3 className="text-base font-semibold text-slate-900">
-                Supporting Grounded Evidence ({activeData.evidence.length})
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
+                Supporting Evidence ({activeData.evidence.length})
               </h3>
-              <span className="text-xs text-slate-500 font-mono">
-                Source: data/chunks.json (Authoritative Verbatim)
+              <span className="text-xs text-slate-500 font-medium">
+                Verbatim Source Quotes
               </span>
             </div>
 
@@ -229,22 +236,22 @@ export default function GuidePage() {
       ) : (
         isLoading && (
           <div className="bg-white border border-slate-200 rounded-xl p-8 text-center animate-pulse space-y-4">
-            <div className="h-4 bg-slate-100 rounded w-1/3 mx-auto"></div>
-            <div className="h-4 bg-slate-100 rounded w-2/3 mx-auto"></div>
-            <p className="text-xs text-slate-400">Performing semantic retrieval and Groq LLM grounded synthesis...</p>
+            <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p className="text-sm font-semibold text-slate-700">Searching the interviews...</p>
+            <p className="text-xs text-slate-500">Analyzing retrieved evidence and preparing source citations</p>
           </div>
         )
       )}
 
-      {/* PHASE 5: Cross-Call Themes & Differences Section */}
+      {/* Cross-Call Themes & Differences Section */}
       <div className="pt-8 border-t border-slate-200 space-y-6">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <h2 className="text-xl font-bold text-slate-900 tracking-tight">
-              Cross-Call Themes & Key Differences
+              Cross-Call Analysis
             </h2>
             <p className="text-xs text-slate-600 mt-1">
-              Multi-market comparison across France, Germany, and the UK identifying consensus themes and material differences.
+              Multi-market comparison across France, Germany, and the UK identifying consensus themes and key differences.
             </p>
           </div>
 
@@ -279,8 +286,8 @@ export default function GuidePage() {
         </div>
 
         {errorThemes && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">
-            {errorThemes}
+          <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
+            We couldn&apos;t load the cross-call themes right now. Please try again.
           </div>
         )}
 

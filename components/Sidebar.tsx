@@ -66,11 +66,14 @@ export default function Sidebar() {
 
       <div className="mt-auto p-4 border-t border-slate-200">
         <div className="bg-slate-50 border border-slate-200 rounded-lg p-3">
-          <h4 className="text-xs font-semibold text-slate-700 mb-1">
-            System Status
-          </h4>
-          <p className="text-xs text-slate-500">
-            Phase 0 Skeleton ready. Grounding and RAG pipelines pending phase rollout.
+          <div className="flex items-center gap-1.5 mb-1">
+            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <h4 className="text-xs font-semibold text-slate-700">
+              System Status
+            </h4>
+          </div>
+          <p className="text-xs text-slate-500 leading-normal">
+            3 Expert Calls indexed. Verbatim evidence layer active with Groq grounded synthesis.
           </p>
         </div>
       </div>

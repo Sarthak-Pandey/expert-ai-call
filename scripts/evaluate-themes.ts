@@ -92,6 +92,24 @@ export async function evaluateThemes() {
     console.log("");
   }
 
+  const summaryPath = path.join(__dirname, "..", "eval", "regression-summary.json");
+  if (fs.existsSync(summaryPath)) {
+    try {
+      const summary = JSON.parse(fs.readFileSync(summaryPath, "utf-8"));
+      summary.lastExecutedAt = new Date().toISOString();
+      summary.themes = {
+        totalThemes: totalThemesGenerated,
+        passed: totalThemesGenerated - invalidEvidenceIdsCount - quoteResolutionFailures,
+        invalidEvidenceIds: invalidEvidenceIdsCount,
+        quoteResolutionFailures,
+        status: invalidEvidenceIdsCount === 0 && quoteResolutionFailures === 0 && totalThemesGenerated > 0 ? "PASS" : "FAIL",
+      };
+      fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2), "utf-8");
+    } catch {
+      // ignore update error
+    }
+  }
+
   console.log("==========================================");
   console.log("Cross-Call Themes Benchmark Summary");
   console.log("==========================================");

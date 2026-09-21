@@ -1,6 +1,11 @@
 import Groq from "groq-sdk";
-import { Evidence } from "./evidence";
-import { buildGroundedGuidePrompt, GUIDE_PROMPT_VERSION } from "./prompts";
+import { Evidence, getEvidenceByChunkId, validateEvidence } from "./evidence";
+import {
+  buildGroundedGuidePrompt,
+  GUIDE_PROMPT_VERSION,
+  buildGroundedAskPrompt,
+  ASK_PROMPT_VERSION,
+} from "./prompts";
 
 export interface GuideAnswer {
   questionId: string;
@@ -11,6 +16,17 @@ export interface GuideAnswer {
     totalExperts: number;
   };
   synthesisType: "consensus" | "mixed" | "single_source" | "insufficient_evidence";
+}
+
+export interface AskAnswer {
+  question: string;
+  answer: string;
+  synthesisType: "consensus" | "mixed" | "single_source" | "insufficient_evidence";
+  coverage: {
+    expertsCovered: number;
+    totalExperts: number;
+  };
+  evidence: Evidence[];
 }
 
 let groqClientInstance: Groq | null = null;
@@ -149,3 +165,173 @@ export async function generateGroundedGuideAnswer(
     synthesisType: distinctExperts > 1 ? "mixed" : "single_source",
   };
 }
+
+/**
+ * Phase 6 — Grounded Cross-Transcript Ask Engine
+ * Uses Groq (openai/gpt-oss-120b) to answer arbitrary user questions strictly based on Phase 3 retrieved evidence.
+ * Enforces evidence ID validation (with bounded retries), exact source evidence resolution via getEvidenceByChunkId(),
+ * and application-computed expert coverage.
+ */
+export async function generateGroundedAskAnswer(
+  question: string,
+  evidenceList: Evidence[]
+): Promise<AskAnswer> {
+  const trimmedQuestion = question ? question.trim() : "";
+
+  if (!evidenceList || evidenceList.length === 0) {
+    return {
+      question: trimmedQuestion,
+      answer: "The provided expert interview transcripts do not contain evidence to answer this question.",
+      synthesisType: "insufficient_evidence",
+      coverage: { expertsCovered: 0, totalExperts: 3 },
+      evidence: [],
+    };
+  }
+
+  const validChunkIds = new Set(evidenceList.map((e) => e.chunkId));
+  const apiKey = process.env.GROQ_API_KEY;
+
+  if (!apiKey) {
+    console.warn(`[${ASK_PROMPT_VERSION}] GROQ_API_KEY missing. Returning fallback grounded evidence payload.`);
+    const sampleEvidences = evidenceList.slice(0, 4);
+    const resolvedEvidences: Evidence[] = [];
+    for (const item of sampleEvidences) {
+      try {
+        const ev = getEvidenceByChunkId(item.chunkId);
+        if (validateEvidence(ev)) resolvedEvidences.push(ev);
+      } catch {
+        // ignore fallback lookup errors
+      }
+    }
+    const distinctExperts = new Set(resolvedEvidences.map((e) => e.expertName)).size;
+    return {
+      question: trimmedQuestion,
+      answer: `Analysis of expert calls across markets regarding "${trimmedQuestion}".`,
+      synthesisType: distinctExperts > 1 ? "mixed" : "single_source",
+      coverage: { expertsCovered: distinctExperts, totalExperts: 3 },
+      evidence: resolvedEvidences,
+    };
+  }
+
+  const groq = getGroqClient();
+  const model = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
+  const { systemPrompt, userPrompt } = buildGroundedAskPrompt(trimmedQuestion, evidenceList);
+
+  let retries = 2;
+  let rawAnswer = "";
+  let rawEvidenceIds: string[] = [];
+  let rawSynthesisType: AskAnswer["synthesisType"] = "mixed";
+
+  while (retries >= 0) {
+    try {
+      const response = await groq.chat.completions.create({
+        model,
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt },
+        ],
+        response_format: { type: "json_object" },
+        temperature: 0.1,
+      });
+
+      const content = response.choices[0]?.message?.content || "";
+      if (!content) {
+        throw new Error("Empty response returned by Groq API.");
+      }
+
+      const parsed = JSON.parse(content) as {
+        answer?: string;
+        evidenceIds?: string[];
+        synthesisType?: string;
+      };
+
+      if (!parsed.answer || typeof parsed.answer !== "string") {
+        throw new Error("Invalid response format: 'answer' string missing.");
+      }
+
+      const ids = Array.isArray(parsed.evidenceIds) ? parsed.evidenceIds : [];
+
+      // Verify all evidence IDs exist in supplied set
+      let hasInvalidId = false;
+      for (const id of ids) {
+        if (!validChunkIds.has(id)) {
+          hasInvalidId = true;
+          console.warn(`[${ASK_PROMPT_VERSION}] Invalid evidence ID returned by LLM: "${id}"`);
+          break;
+        }
+      }
+
+      if (hasInvalidId && retries > 0) {
+        console.warn(`[${ASK_PROMPT_VERSION}] Retrying LLM completion due to invalid evidence IDs... (${retries} retries left)`);
+        retries--;
+        await new Promise((res) => setTimeout(res, 1000));
+        continue;
+      }
+
+      rawAnswer = parsed.answer.trim();
+      rawEvidenceIds = ids.filter((id) => validChunkIds.has(id));
+
+      if (
+        parsed.synthesisType &&
+        ["consensus", "mixed", "single_source", "insufficient_evidence"].includes(parsed.synthesisType)
+      ) {
+        rawSynthesisType = parsed.synthesisType as AskAnswer["synthesisType"];
+      }
+
+      break;
+    } catch (err: unknown) {
+      const errorObj = err as Error;
+      console.warn(
+        `[${ASK_PROMPT_VERSION}] Groq completion attempt failed (${retries} retries left):`,
+        errorObj.message
+      );
+      retries--;
+      if (retries >= 0) {
+        await new Promise((res) => setTimeout(res, 1000));
+      }
+    }
+  }
+
+  // Handle case where completion failed or yielded insufficient evidence
+  if (!rawAnswer) {
+    rawAnswer = "The provided expert interview transcripts do not contain sufficient evidence to answer this question.";
+    rawSynthesisType = "insufficient_evidence";
+  }
+
+  // Exact source quote resolution using getEvidenceByChunkId
+  const resolvedEvidences: Evidence[] = [];
+  for (const id of rawEvidenceIds) {
+    try {
+      const ev = getEvidenceByChunkId(id);
+      if (validateEvidence(ev)) {
+        resolvedEvidences.push(ev);
+      }
+    } catch (err) {
+      console.warn(`[${ASK_PROMPT_VERSION}] Source evidence resolution failed for chunkId "${id}":`, err);
+    }
+  }
+
+  // Application-level expert coverage computation
+  const distinctExpertsCount = new Set(resolvedEvidences.map((e) => e.expertName)).size;
+
+  let finalSynthesisType = rawSynthesisType;
+  if (resolvedEvidences.length === 0 || rawSynthesisType === "insufficient_evidence") {
+    finalSynthesisType = "insufficient_evidence";
+  } else if (distinctExpertsCount === 1) {
+    finalSynthesisType = "single_source";
+  } else if (rawSynthesisType === "consensus" && distinctExpertsCount < 2) {
+    finalSynthesisType = "mixed";
+  }
+
+  return {
+    question: trimmedQuestion,
+    answer: rawAnswer,
+    synthesisType: finalSynthesisType,
+    coverage: {
+      expertsCovered: distinctExpertsCount,
+      totalExperts: 3,
+    },
+    evidence: resolvedEvidences,
+  };
+}
+

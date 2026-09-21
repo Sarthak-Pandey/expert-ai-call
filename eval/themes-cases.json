@@ -1,0 +1,7 @@
+[
+  { "id": "T1", "name": "Full Cross-Call Analysis", "questionId": null },
+  { "id": "T2", "name": "Adoption Drivers (Q1)", "questionId": "Q1" },
+  { "id": "T3", "name": "Acquisition Hurdles (Q2)", "questionId": "Q2" },
+  { "id": "T4", "name": "Financial Constraints & ROI (Q3)", "questionId": "Q3" },
+  { "id": "T5", "name": "Training & Clinical Evidence (Q4)", "questionId": "Q4" }
+]
