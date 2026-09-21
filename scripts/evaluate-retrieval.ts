@@ -42,7 +42,8 @@ export async function evaluateRetrieval() {
     // Collect retrieved markets from top-5 results
     const retrievedMarketsSet = new Set<string>();
     results.forEach((r) => {
-      if (r.market) retrievedMarketsSet.add(r.market);
+      const ev = r.evidence;
+      if (ev && ev.market) retrievedMarketsSet.add(ev.market);
     });
 
     const retrievedMarkets = Array.from(retrievedMarketsSet);

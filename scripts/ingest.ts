@@ -106,10 +106,11 @@ export async function ingestChunks() {
   console.log(`Sample Query: "${sampleQuery}"`);
   console.log(`Top ${sampleResults.length} Results:`);
   sampleResults.forEach((res, idx) => {
-    console.log(`\n  [${idx + 1}] ${res.chunkId} (${res.market} - ${res.expertName} @ ${res.timestamp})`);
-    console.log(`      Score: ${res.score.toFixed(4)}`);
-    console.log(`      Question: "${res.interviewQuestion}"`);
-    console.log(`      Text: "${res.text.substring(0, 100)}..."`);
+    const ev = res.evidence;
+    console.log(`\n  [${idx + 1}] ${ev.chunkId} (${ev.market} - ${ev.expertName} @ ${ev.timestamp})`);
+    console.log(`      Score: ${ev.score.toFixed(4)}`);
+    console.log(`      Question: "${ev.interviewQuestion}"`);
+    console.log(`      Text: "${ev.exactQuote.substring(0, 100)}..."`);
   });
 }
 
