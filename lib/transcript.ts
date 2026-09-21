@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+
 /**
  * Transcript Normalization & Metadata Data Models and Utilities
  */
@@ -55,16 +58,48 @@ export interface ExactQuoteResult {
   sourceFile: string;
 }
 
+let cachedChunks: ExpertResponseChunk[] | null = null;
+
 /**
- * Phase 1P — Exact Quote Safety Utility
- * Given a chunk ID and the dataset of retrieval chunks, returns the exact original text,
- * timestamp, expert name, market, and source file without any modification.
+ * Loads all expert response chunks from data/chunks.json.
+ */
+export function getAllChunks(): ExpertResponseChunk[] {
+  if (cachedChunks) return cachedChunks;
+  try {
+    const chunksPath = path.join(process.cwd(), "data", "chunks.json");
+    if (fs.existsSync(chunksPath)) {
+      const data = fs.readFileSync(chunksPath, "utf-8");
+      cachedChunks = JSON.parse(data) as ExpertResponseChunk[];
+      return cachedChunks;
+    }
+  } catch (err) {
+    console.error("Failed to read data/chunks.json:", err);
+  }
+  return [];
+}
+
+/**
+ * Phase 2 — Source Resolution Helper
+ * Resolves a chunkId back to its original Phase 1 expert response chunk.
+ */
+export function getChunkById(
+  chunkId: string,
+  chunks?: ExpertResponseChunk[]
+): ExpertResponseChunk | null {
+  const sourceChunks = chunks && chunks.length > 0 ? chunks : getAllChunks();
+  return sourceChunks.find((c) => c.chunkId === chunkId) || null;
+}
+
+/**
+ * Phase 1P / Phase 2 — Exact Quote Safety Utility
+ * Given a chunk ID, returns the exact original text, timestamp, expert name, market,
+ * and source file without any modification or LLM generation.
  */
 export function getExactQuote(
   chunkId: string,
-  chunks: ExpertResponseChunk[]
+  chunks?: ExpertResponseChunk[]
 ): ExactQuoteResult | null {
-  const chunk = chunks.find((c) => c.chunkId === chunkId);
+  const chunk = getChunkById(chunkId, chunks);
   if (!chunk) return null;
   return {
     text: chunk.text,

@@ -42,7 +42,7 @@ Transcripts
 
 - [x] **Phase 0**: Project foundation and application skeleton
 - [x] **Phase 1**: Transcript parsing and normalization
-- [ ] **Phase 2**: Embeddings and Pinecone ingestion
+- [x] **Phase 2**: Embeddings and Pinecone ingestion
 - [ ] **Phase 3**: Retrieval and evidence layer
 - [ ] **Phase 4**: Interview Guide analysis
 - [ ] **Phase 5**: Themes and disagreements
@@ -54,7 +54,64 @@ Transcripts
 
 ## Current Status
 
-**Phase 1 Completed.** Deterministic transcript parsing, normalization, metadata extraction, speaker alias matching, exact text preservation, and retrieval unit creation are fully implemented and verified.
+**Phase 2 Completed.** Vector embeddings, Pinecone Integrated Inference indexing (`llama-text-embed-v2`), idempotent ingestion, semantic search API (`POST /api/search`), exact JSON source resolution, and 100% automated retrieval evaluation are fully implemented.
+
+---
+
+## Phase 2 — Embeddings & Pinecone Retrieval
+
+Phase 2 indexes the Phase 1 retrieval units into a Pinecone serverless vector database using Pinecone Integrated Inference (`llama-text-embed-v2`) and provides semantic search capabilities while keeping Phase 1 JSON as the single authoritative source of truth for exact transcript evidence.
+
+### Vector Pipeline Architecture
+
+```text
+Phase 1 Chunks (data/chunks.json)
+      ↓
+Pinecone Integrated Inference (llama-text-embed-v2)
+      ↓
+Pinecone Serverless Index (expert-ai-call / namespace: case-v1)
+      ↓
+Semantic Vector Search (POST /api/search)
+      ↓
+Matched Chunk ID
+      ↓
+Phase 1 Source JSON Lookup (getChunkById)
+      ↓
+Exact Evidence (Spoken Text + Timestamp + Metadata)
+```
+
+### Key Technical Principles
+
+1. **Pinecone as Index / JSON as Truth**: Pinecone retrieves the relevant `chunkId`s and similarity scores. The original Phase 1 JSON files remain authoritative for exact quotes, timestamps, market names, and turn IDs.
+2. **Integrated Inference**: Uses Pinecone's serverless model-aware indexing with `llama-text-embed-v2`. Embeddings are automatically calculated on Pinecone's infrastructure for both document passage ingestion and search queries.
+3. **Retrieval Text Construction**: Indexes combined passage representations containing both interview question context and expert answer:
+   ```text
+   Interview question:
+   {interviewQuestion}
+
+   Expert response:
+   {text}
+   ```
+4. **Metadata Preservation**: Stores `callId`, `expertId`, `expertName`, `role`, `market`, `timestamp`, `timestampSeconds`, `sourceFile`, `sourceTurnId`, and `interviewQuestion`.
+5. **Idempotent Ingestion**: Ingests records deterministically keyed by Phase 1 `chunkId`s (`france_expert_001`, `germany_expert_001`, etc.) so multiple runs safely update records.
+6. **No LLM Answer Generation**: Phase 2 focuses purely on semantic vector retrieval; zero LLM calls or AI-synthesized answers are introduced.
+
+### Running Phase 2 Scripts
+
+- **Ingest Vectors into Pinecone**:
+  ```bash
+  npm run ingest
+  ```
+- **Evaluate Semantic Retrieval Coverage**:
+  ```bash
+  npm run evaluate:retrieval
+  ```
+
+### Search API Endpoint
+
+- `POST /api/search`
+  - Body: `{ "query": "What are the main barriers to adoption?", "topK": 5, "filter": { "market": "France" } }`
+  - Returns: Structured evidence hits containing raw vector scores and exact spoken transcript text resolved from Phase 1 JSON.
 
 ---
 
