@@ -1,0 +1,153 @@
+{
+  "metadata": {
+    "callId": "uk",
+    "expertId": "uk_expert",
+    "expertName": "Dr. Emily Carter",
+    "speakerLabel": "Dr. Carter",
+    "role": "Consultant Urologist",
+    "market": "United Kingdom",
+    "sourceFile": "Transcript_3_UK.txt"
+  },
+  "turns": [
+    {
+      "turnId": "uk_turn_001",
+      "callId": "uk",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "00:00",
+      "timestampSeconds": 0,
+      "text": "How would you describe adoption in the UK?",
+      "rawText": "Interviewer: How would you describe adoption in the UK?"
+    },
+    {
+      "turnId": "uk_turn_002",
+      "callId": "uk",
+      "speaker": "Dr. Carter",
+      "speakerType": "expert",
+      "timestamp": "00:14",
+      "timestampSeconds": 14,
+      "text": "Adoption is increasing, and in some larger NHS trusts robotic surgery is becoming standard for selected procedures. But access still varies significantly by hospital.",
+      "rawText": "Dr. Carter: Adoption is increasing, and in some larger NHS trusts robotic surgery is becoming standard for selected procedures. But access still varies significantly by hospital."
+    },
+    {
+      "turnId": "uk_turn_003",
+      "callId": "uk",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "01:00",
+      "timestampSeconds": 60,
+      "text": "What are the main barriers?",
+      "rawText": "Interviewer: What are the main barriers?"
+    },
+    {
+      "turnId": "uk_turn_004",
+      "callId": "uk",
+      "speaker": "Dr. Carter",
+      "speakerType": "expert",
+      "timestamp": "01:05",
+      "timestampSeconds": 65,
+      "text": "Funding is important, but I would say training capacity is just as important. You can buy a system, but if you cannot train enough surgeons and theatre staff, adoption stalls.",
+      "rawText": "Dr. Carter: Funding is important, but I would say training capacity is just as important. You can buy a system, but if you cannot train enough surgeons and theatre staff, adoption stalls."
+    },
+    {
+      "turnId": "uk_turn_005",
+      "callId": "uk",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "02:02",
+      "timestampSeconds": 122,
+      "text": "How important is ROI?",
+      "rawText": "Interviewer: How important is ROI?"
+    },
+    {
+      "turnId": "uk_turn_006",
+      "callId": "uk",
+      "speaker": "Dr. Carter",
+      "speakerType": "expert",
+      "timestamp": "02:07",
+      "timestampSeconds": 127,
+      "text": "It matters, but the discussion is not always purely financial. Hospitals also consider patient outcomes, length of stay, surgeon recruitment and whether the technology improves their clinical position.",
+      "rawText": "Dr. Carter: It matters, but the discussion is not always purely financial. Hospitals also consider patient outcomes, length of stay, surgeon recruitment and whether the technology improves their clinical position."
+    },
+    {
+      "turnId": "uk_turn_007",
+      "callId": "uk",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "03:03",
+      "timestampSeconds": 183,
+      "text": "So would you say economics are less important in the UK?",
+      "rawText": "Interviewer: So would you say economics are less important in the UK?"
+    },
+    {
+      "turnId": "uk_turn_008",
+      "callId": "uk",
+      "speaker": "Dr. Carter",
+      "speakerType": "expert",
+      "timestamp": "03:10",
+      "timestampSeconds": 190,
+      "text": "I would say economics and clinical strategy are balanced. I would not say finance alone decides the purchase.",
+      "rawText": "Dr. Carter: I would say economics and clinical strategy are balanced. I would not say finance alone decides the purchase."
+    },
+    {
+      "turnId": "uk_turn_009",
+      "callId": "uk",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "04:01",
+      "timestampSeconds": 241,
+      "text": "What is your outlook for the next three to five years?",
+      "rawText": "Interviewer: What is your outlook for the next three to five years?"
+    },
+    {
+      "turnId": "uk_turn_010",
+      "callId": "uk",
+      "speaker": "Dr. Carter",
+      "speakerType": "expert",
+      "timestamp": "04:06",
+      "timestampSeconds": 246,
+      "text": "I am quite positive. I think adoption could accelerate if training expands and systems become more cost competitive. I could see procedure growth above 15 percent annually in some areas.",
+      "rawText": "Dr. Carter: I am quite positive. I think adoption could accelerate if training expands and systems become more cost competitive. I could see procedure growth above 15 percent annually in some areas."
+    },
+    {
+      "turnId": "uk_turn_011",
+      "callId": "uk",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "05:00",
+      "timestampSeconds": 300,
+      "text": "What about purchase timelines?",
+      "rawText": "Interviewer: What about purchase timelines?"
+    },
+    {
+      "turnId": "uk_turn_012",
+      "callId": "uk",
+      "speaker": "Dr. Carter",
+      "speakerType": "expert",
+      "timestamp": "05:04",
+      "timestampSeconds": 304,
+      "text": "Around six to nine months can happen if funding is already available. If the trust has to wait for a new capital cycle, it can take much longer.",
+      "rawText": "Dr. Carter: Around six to nine months can happen if funding is already available. If the trust has to wait for a new capital cycle, it can take much longer."
+    },
+    {
+      "turnId": "uk_turn_013",
+      "callId": "uk",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "06:00",
+      "timestampSeconds": 360,
+      "text": "Any final thought?",
+      "rawText": "Interviewer: Any final thought?"
+    },
+    {
+      "turnId": "uk_turn_014",
+      "callId": "uk",
+      "speaker": "Dr. Carter",
+      "speakerType": "expert",
+      "timestamp": "06:04",
+      "timestampSeconds": 364,
+      "text": "The key point is that adoption is not just about buying the machine. Hospitals need enough trained people and enough procedure volume to make the programme sustainable.",
+      "rawText": "Dr. Carter: The key point is that adoption is not just about buying the machine. Hospitals need enough trained people and enough procedure volume to make the programme sustainable."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "Transcript_1_France.txt": {
+    "callId": "france",
+    "expertId": "france_expert",
+    "speakerLabel": "Dr. Martin"
+  },
+  "Transcript_2_Germany.txt": {
+    "callId": "germany",
+    "expertId": "germany_expert",
+    "speakerLabel": "Anna Keller"
+  },
+  "Transcript_3_UK.txt": {
+    "callId": "uk",
+    "expertId": "uk_expert",
+    "speakerLabel": "Dr. Carter"
+  }
+}

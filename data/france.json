@@ -1,0 +1,153 @@
+{
+  "metadata": {
+    "callId": "france",
+    "expertId": "france_expert",
+    "expertName": "Dr. Jean Martin",
+    "speakerLabel": "Dr. Martin",
+    "role": "Head of Urology",
+    "market": "France",
+    "sourceFile": "Transcript_1_France.txt"
+  },
+  "turns": [
+    {
+      "turnId": "france_turn_001",
+      "callId": "france",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "00:00",
+      "timestampSeconds": 0,
+      "text": "Thanks for joining. To begin, how would you describe robotic surgery adoption in France today?",
+      "rawText": "Interviewer: Thanks for joining. To begin, how would you describe robotic surgery adoption in France today?"
+    },
+    {
+      "turnId": "france_turn_002",
+      "callId": "france",
+      "speaker": "Dr. Martin",
+      "speakerType": "expert",
+      "timestamp": "00:18",
+      "timestampSeconds": 18,
+      "text": "Adoption is growing, but it is still concentrated in larger academic hospitals and private centres with stronger capital budgets. Smaller regional hospitals are much slower.",
+      "rawText": "Dr. Martin: Adoption is growing, but it is still concentrated in larger academic hospitals and private centres with stronger capital budgets. Smaller regional hospitals are much slower."
+    },
+    {
+      "turnId": "france_turn_003",
+      "callId": "france",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "01:12",
+      "timestampSeconds": 72,
+      "text": "What is holding adoption back?",
+      "rawText": "Interviewer: What is holding adoption back?"
+    },
+    {
+      "turnId": "france_turn_004",
+      "callId": "france",
+      "speaker": "Dr. Martin",
+      "speakerType": "expert",
+      "timestamp": "01:20",
+      "timestampSeconds": 80,
+      "text": "The biggest issue is still capital budget approval. Hospitals may like the technology clinically, but purchasing committees need a strong economic case before approving a system.",
+      "rawText": "Dr. Martin: The biggest issue is still capital budget approval. Hospitals may like the technology clinically, but purchasing committees need a strong economic case before approving a system."
+    },
+    {
+      "turnId": "france_turn_005",
+      "callId": "france",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "02:14",
+      "timestampSeconds": 134,
+      "text": "So ROI is important?",
+      "rawText": "Interviewer: So ROI is important?"
+    },
+    {
+      "turnId": "france_turn_006",
+      "callId": "france",
+      "speaker": "Dr. Martin",
+      "speakerType": "expert",
+      "timestamp": "02:18",
+      "timestampSeconds": 138,
+      "text": "Very important. The clinical argument may get surgeons interested, but the finance team wants to understand utilisation, procedure volume, maintenance cost and whether the system will actually pay for itself.",
+      "rawText": "Dr. Martin: Very important. The clinical argument may get surgeons interested, but the finance team wants to understand utilisation, procedure volume, maintenance cost and whether the system will actually pay for itself."
+    },
+    {
+      "turnId": "france_turn_007",
+      "callId": "france",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "03:05",
+      "timestampSeconds": 185,
+      "text": "What about training?",
+      "rawText": "Interviewer: What about training?"
+    },
+    {
+      "turnId": "france_turn_008",
+      "callId": "france",
+      "speaker": "Dr. Martin",
+      "speakerType": "expert",
+      "timestamp": "03:10",
+      "timestampSeconds": 190,
+      "text": "Training matters, especially in the first year. If only one surgeon can use the system, the economics become difficult. Hospitals want several surgeons trained so utilisation is high enough.",
+      "rawText": "Dr. Martin: Training matters, especially in the first year. If only one surgeon can use the system, the economics become difficult. Hospitals want several surgeons trained so utilisation is high enough."
+    },
+    {
+      "turnId": "france_turn_009",
+      "callId": "france",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "04:02",
+      "timestampSeconds": 242,
+      "text": "Are clinical outcomes still the main driver?",
+      "rawText": "Interviewer: Are clinical outcomes still the main driver?"
+    },
+    {
+      "turnId": "france_turn_010",
+      "callId": "france",
+      "speaker": "Dr. Martin",
+      "speakerType": "expert",
+      "timestamp": "04:08",
+      "timestampSeconds": 248,
+      "text": "Clinical outcomes are necessary, but they are not enough on their own. If two systems offer similar outcomes, the hospital will look hard at economics and utilisation.",
+      "rawText": "Dr. Martin: Clinical outcomes are necessary, but they are not enough on their own. If two systems offer similar outcomes, the hospital will look hard at economics and utilisation."
+    },
+    {
+      "turnId": "france_turn_011",
+      "callId": "france",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "05:00",
+      "timestampSeconds": 300,
+      "text": "What do you expect over the next three to five years?",
+      "rawText": "Interviewer: What do you expect over the next three to five years?"
+    },
+    {
+      "turnId": "france_turn_012",
+      "callId": "france",
+      "speaker": "Dr. Martin",
+      "speakerType": "expert",
+      "timestamp": "05:07",
+      "timestampSeconds": 307,
+      "text": "I expect adoption to continue increasing, probably steadily rather than explosively. I would expect maybe 15 to 20 percent more procedures annually in some of the stronger centres, but smaller hospitals will remain slower.",
+      "rawText": "Dr. Martin: I expect adoption to continue increasing, probably steadily rather than explosively. I would expect maybe 15 to 20 percent more procedures annually in some of the stronger centres, but smaller hospitals will remain slower."
+    },
+    {
+      "turnId": "france_turn_013",
+      "callId": "france",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "06:02",
+      "timestampSeconds": 362,
+      "text": "How long does a purchase decision normally take?",
+      "rawText": "Interviewer: How long does a purchase decision normally take?"
+    },
+    {
+      "turnId": "france_turn_014",
+      "callId": "france",
+      "speaker": "Dr. Martin",
+      "speakerType": "expert",
+      "timestamp": "06:08",
+      "timestampSeconds": 368,
+      "text": "Six to twelve months is realistic once the hospital becomes serious. It can be longer if the capital committee pushes the purchase into the next budget cycle.",
+      "rawText": "Dr. Martin: Six to twelve months is realistic once the hospital becomes serious. It can be longer if the capital committee pushes the purchase into the next budget cycle."
+    }
+  ]
+}

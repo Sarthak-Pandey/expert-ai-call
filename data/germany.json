@@ -1,0 +1,153 @@
+{
+  "metadata": {
+    "callId": "germany",
+    "expertId": "germany_expert",
+    "expertName": "Anna Keller",
+    "speakerLabel": "Anna Keller",
+    "role": "Former Hospital Procurement Director",
+    "market": "Germany",
+    "sourceFile": "Transcript_2_Germany.txt"
+  },
+  "turns": [
+    {
+      "turnId": "germany_turn_001",
+      "callId": "germany",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "00:00",
+      "timestampSeconds": 0,
+      "text": "How would you describe robotic surgery adoption in Germany today?",
+      "rawText": "Interviewer: How would you describe robotic surgery adoption in Germany today?"
+    },
+    {
+      "turnId": "germany_turn_002",
+      "callId": "germany",
+      "speaker": "Anna Keller",
+      "speakerType": "expert",
+      "timestamp": "00:16",
+      "timestampSeconds": 16,
+      "text": "It is growing, but adoption is quite uneven. Large university hospitals are much more advanced, while many smaller hospitals are still waiting.",
+      "rawText": "Anna Keller: It is growing, but adoption is quite uneven. Large university hospitals are much more advanced, while many smaller hospitals are still waiting."
+    },
+    {
+      "turnId": "germany_turn_003",
+      "callId": "germany",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "01:05",
+      "timestampSeconds": 65,
+      "text": "What are the main barriers?",
+      "rawText": "Interviewer: What are the main barriers?"
+    },
+    {
+      "turnId": "germany_turn_004",
+      "callId": "germany",
+      "speaker": "Anna Keller",
+      "speakerType": "expert",
+      "timestamp": "01:10",
+      "timestampSeconds": 70,
+      "text": "Cost is the first barrier. These are large capital purchases, and hospital finances are under pressure. The second issue is proving that the system will be used enough.",
+      "rawText": "Anna Keller: Cost is the first barrier. These are large capital purchases, and hospital finances are under pressure. The second issue is proving that the system will be used enough."
+    },
+    {
+      "turnId": "germany_turn_005",
+      "callId": "germany",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "02:03",
+      "timestampSeconds": 123,
+      "text": "What does procurement focus on?",
+      "rawText": "Interviewer: What does procurement focus on?"
+    },
+    {
+      "turnId": "germany_turn_006",
+      "callId": "germany",
+      "speaker": "Anna Keller",
+      "speakerType": "expert",
+      "timestamp": "02:08",
+      "timestampSeconds": 128,
+      "text": "We look at total cost of ownership, expected procedure volume, maintenance, service contracts and training requirements. A strong clinical case helps, but the economic case decides whether it gets approved.",
+      "rawText": "Anna Keller: We look at total cost of ownership, expected procedure volume, maintenance, service contracts and training requirements. A strong clinical case helps, but the economic case decides whether it gets approved."
+    },
+    {
+      "turnId": "germany_turn_007",
+      "callId": "germany",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "03:00",
+      "timestampSeconds": 180,
+      "text": "How important is surgeon training?",
+      "rawText": "Interviewer: How important is surgeon training?"
+    },
+    {
+      "turnId": "germany_turn_008",
+      "callId": "germany",
+      "speaker": "Anna Keller",
+      "speakerType": "expert",
+      "timestamp": "03:05",
+      "timestampSeconds": 185,
+      "text": "Very important operationally. If the hospital buys a system but only one surgeon is comfortable using it, utilisation will be poor. That weakens the business case.",
+      "rawText": "Anna Keller: Very important operationally. If the hospital buys a system but only one surgeon is comfortable using it, utilisation will be poor. That weakens the business case."
+    },
+    {
+      "turnId": "germany_turn_009",
+      "callId": "germany",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "04:04",
+      "timestampSeconds": 244,
+      "text": "Do you expect adoption to accelerate?",
+      "rawText": "Interviewer: Do you expect adoption to accelerate?"
+    },
+    {
+      "turnId": "germany_turn_010",
+      "callId": "germany",
+      "speaker": "Anna Keller",
+      "speakerType": "expert",
+      "timestamp": "04:09",
+      "timestampSeconds": 249,
+      "text": "Yes, but I would not expect a dramatic jump. I think growth will be gradual, especially because many hospitals have other competing capital priorities.",
+      "rawText": "Anna Keller: Yes, but I would not expect a dramatic jump. I think growth will be gradual, especially because many hospitals have other competing capital priorities."
+    },
+    {
+      "turnId": "germany_turn_011",
+      "callId": "germany",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "05:02",
+      "timestampSeconds": 302,
+      "text": "Any rough expectation over the next three to five years?",
+      "rawText": "Interviewer: Any rough expectation over the next three to five years?"
+    },
+    {
+      "turnId": "germany_turn_012",
+      "callId": "germany",
+      "speaker": "Anna Keller",
+      "speakerType": "expert",
+      "timestamp": "05:08",
+      "timestampSeconds": 308,
+      "text": "I would expect continued growth, but probably closer to high single digits or low double digits in procedure volumes rather than something like 20 percent across the whole market.",
+      "rawText": "Anna Keller: I would expect continued growth, but probably closer to high single digits or low double digits in procedure volumes rather than something like 20 percent across the whole market."
+    },
+    {
+      "turnId": "germany_turn_013",
+      "callId": "germany",
+      "speaker": "Interviewer",
+      "speakerType": "interviewer",
+      "timestamp": "06:00",
+      "timestampSeconds": 360,
+      "text": "How long can the purchase process take?",
+      "rawText": "Interviewer: How long can the purchase process take?"
+    },
+    {
+      "turnId": "germany_turn_014",
+      "callId": "germany",
+      "speaker": "Anna Keller",
+      "speakerType": "expert",
+      "timestamp": "06:05",
+      "timestampSeconds": 365,
+      "text": "Nine to eighteen months is common. Procurement, clinical leadership, finance and management all need to align, so it can move slowly.",
+      "rawText": "Anna Keller: Nine to eighteen months is common. Procurement, clinical leadership, finance and management all need to align, so it can move slowly."
+    }
+  ]
+}
